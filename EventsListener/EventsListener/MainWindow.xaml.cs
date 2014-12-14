@@ -10,6 +10,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -26,6 +27,7 @@ namespace EventsListener
             InitializeComponent();
             TextBlock.Text = 0.ToString();
             Helper.LbEvents().ForEach(x=>ListBox.Items.Add(x));
+            AddRandomAnimations();
             int count = 0;
             MouseMove += delegate(object s, MouseEventArgs e)
             {
@@ -43,12 +45,21 @@ namespace EventsListener
             };
             //Helper.SaveCategories();
         }
-       
+
+        private void AddRandomAnimations()
+        {
+            ListBox.Items.Cast<ListBoxItem>().Zip(Helper.Animations(), delegate(ListBoxItem x, ColorAnimation y)
+            {
+                var brush = new SolidColorBrush();
+                x.Foreground = brush;
+                brush.BeginAnimation(SolidColorBrush.ColorProperty, y);
+                return x;
+            }).ForEach(_=>{});
+        }
+
         private void ListBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var item = ((ListBoxItem) ListBox.SelectedItem);
-            var routedEvent = item.Content as RoutedEvent;
-            if (routedEvent != null) TextBlock.Text = routedEvent.Name;
+
             //(e.AddedItems[0] as RoutedEvent).
         }
     }
@@ -64,6 +75,41 @@ namespace EventsListener
 
     public class Helper
     {
+        public static IEnumerable<Color> Colors()
+        {
+            
+            var names = typeof (Colors).GetProperties().Select(x => x.Name).ToArray();
+            return Random(max: names.Length)
+                .Select(i => names[i])
+                .Select(ColorConverter.ConvertFromString)
+                .Where(x=>x != null)
+                .Select(x=> (Color) x);
+            //System.Windows.Media.Colors.
+        }
+
+        public static IEnumerable<int> Random(int max = int.MaxValue, int min = 0)
+        {
+            var random = new Random();
+            while (true)
+                yield return random.Next(min, max);
+        }
+
+        public static IEnumerable<ColorAnimation> Animations()
+        {
+            var duration = TimeSpan.FromSeconds(1);
+            return Colors()
+                .Zip(Colors().Skip(25),
+                    (x, y) =>
+                        new ColorAnimation
+                        {
+                            RepeatBehavior = RepeatBehavior.Forever,
+                            AutoReverse = true,
+                            From = x,
+                            To = y,
+                            Duration = duration
+                        });
+        }
+
         public static RoutedEvent[] Events()
         {
             return EventManager.GetRoutedEvents();
