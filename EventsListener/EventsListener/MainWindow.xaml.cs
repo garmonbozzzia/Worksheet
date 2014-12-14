@@ -48,13 +48,23 @@ namespace EventsListener
 
         private void AddRandomAnimations()
         {
-            ListBox.Items.Cast<ListBoxItem>().Zip(Helper.Animations(), delegate(ListBoxItem x, ColorAnimation y)
-            {
-                var brush = new SolidColorBrush();
-                x.Foreground = brush;
-                brush.BeginAnimation(SolidColorBrush.ColorProperty, y);
-                return x;
-            }).ForEach(_=>{});
+            var animations = Helper.Animations();
+            ListBox.Items.Cast<ListBoxItem>()
+                .Zip( animations, delegate(ListBoxItem x, ColorAnimation y)
+                {
+                    var brush = new SolidColorBrush();
+                    x.Foreground = brush;
+                    brush.BeginAnimation(SolidColorBrush.ColorProperty, y);
+                    return x;
+                })
+                .Zip(animations, (x, y) =>
+                {
+                    var brush = new SolidColorBrush();
+                    x.Background = brush;
+                    brush.BeginAnimation(SolidColorBrush.ColorProperty, y);
+                    return x;
+                })
+                .ForEach(_=>{});
         }
 
         private void ListBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -75,11 +85,12 @@ namespace EventsListener
 
     public class Helper
     {
+        public static Random Random = new Random("tetet".GetHashCode());
         public static IEnumerable<Color> Colors()
         {
             
             var names = typeof (Colors).GetProperties().Select(x => x.Name).ToArray();
-            return Random(max: names.Length)
+            return RandomStream(max: names.Length)
                 .Select(i => names[i])
                 .Select(ColorConverter.ConvertFromString)
                 .Where(x=>x != null)
@@ -87,18 +98,17 @@ namespace EventsListener
             //System.Windows.Media.Colors.
         }
 
-        public static IEnumerable<int> Random(int max = int.MaxValue, int min = 0)
+        public static IEnumerable<int> RandomStream(int max = int.MaxValue, int min = 0)
         {
-            var random = new Random();
             while (true)
-                yield return random.Next(min, max);
+                yield return Random.Next(min, max);
         }
 
         public static IEnumerable<ColorAnimation> Animations()
         {
             var duration = TimeSpan.FromSeconds(1);
             return Colors()
-                .Zip(Colors().Skip(25),
+                .Zip(Colors(),
                     (x, y) =>
                         new ColorAnimation
                         {
