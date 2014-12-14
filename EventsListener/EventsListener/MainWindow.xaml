@@ -5,6 +5,7 @@
     <Grid Background="Black">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20*" />
+            <ColumnDefinition Width="20*" />
             <!--This will make any control in this column of grid take 2/5 of total width-->
             <ColumnDefinition Width="3*" />
             <!--This will make any control in this column of grid take 3/5 of total width-->
@@ -12,9 +13,11 @@
         <Grid.RowDefinitions>
             <RowDefinition MinHeight="30" />
         </Grid.RowDefinitions>
-            <TextBlock Grid.Column="0" Name="TextBlock" TextWrapping="Wrap" Text="TextBlock" Background="White" HorizontalAlignment="Stretch" />
-            <Button Grid.Column="1" Name="Button1" Content="Button"  />
-        
-
+            <ScrollViewer Grid.Column="0">
+                <TextBlock  Name="TextBlock" TextWrapping="Wrap" Text="TextBlock" Background="White" HorizontalAlignment="Stretch" />
+            </ScrollViewer>
+        <ScrollViewer Grid.Column="1">
+            <ListBox Name="ListBox" ></ListBox></ScrollViewer>
+        <Button Grid.Column="2" Name="Button1" Content="Button"  />
     </Grid>
 </Window>

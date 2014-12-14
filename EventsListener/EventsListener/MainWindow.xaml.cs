@@ -24,6 +24,17 @@ namespace EventsListener
         {
             InitializeComponent();
             TextBlock.Text = Helper.ListOfEvents();
+            Helper.LbEvents().ForEach(x=>ListBox.Items.Add(x));
+            //ListBox.Items
+        }
+    }
+
+    public static class Extensions
+    {
+        public static void ForEach<T>(this IEnumerable<T> sequence, Action<T> action)
+        {
+            // argument null checking omitted
+            foreach (T item in sequence) action(item);
         }
     }
 
@@ -31,11 +42,20 @@ namespace EventsListener
     {
         public static string ListOfEvents()
         {
-            var res = EventManager.GetRoutedEventsForOwner(typeof(UIElement));
+            RoutedEvent[] res = Events();
             if (res != null)
                 return res.Select(x => x.Name).Aggregate("", (seed, x) => seed + x + '\n');
             return "";
         }
 
+        public static RoutedEvent[] Events()
+        {
+            return EventManager.GetRoutedEventsForOwner(typeof(UIElement));
+        }
+
+        public static IEnumerable<ListBoxItem> LbEvents()
+        {
+            return Events().Select(x => new ListBoxItem {Content = x});
+        }
     }
 }
