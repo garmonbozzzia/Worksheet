@@ -24,13 +24,31 @@ namespace EventsListener
         public MainWindow()
         {
             InitializeComponent();
+            TextBlock.Text = 0.ToString();
             Helper.LbEvents().ForEach(x=>ListBox.Items.Add(x));
-            Helper.SaveCategories();
+            int count = 0;
+            MouseMove += delegate(object s, MouseEventArgs e)
+            {
+                TextBlock.Text = String.Join("\n", new object[]
+                {
+                    "Count", count++,
+                    "Timestamp", e.Timestamp,
+                    "Device", e.Device,
+                    "LeftButton", e.LeftButton,
+                    "OriginalSource", e.OriginalSource,
+                    "Source", e.Source,
+                    "RoutedEvent", e.RoutedEvent,
+                    "Handled", e.Handled,
+                }.Select(x => x.ToString()));
+            };
+            //Helper.SaveCategories();
         }
        
         private void ListBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            TextBlock.Text = (((ListBoxItem) ListBox.SelectedItem).Content as RoutedEvent).Name;
+            var item = ((ListBoxItem) ListBox.SelectedItem);
+            var routedEvent = item.Content as RoutedEvent;
+            if (routedEvent != null) TextBlock.Text = routedEvent.Name;
             //(e.AddedItems[0] as RoutedEvent).
         }
     }
