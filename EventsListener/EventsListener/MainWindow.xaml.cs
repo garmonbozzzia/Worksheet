@@ -23,6 +23,19 @@ namespace EventsListener
         public MainWindow()
         {
             InitializeComponent();
+            TextBlock.Text = Helper.ListOfEvents();
         }
+    }
+
+    public class Helper
+    {
+        public static string ListOfEvents()
+        {
+            var res = EventManager.GetRoutedEventsForOwner(typeof(UIElement));
+            if (res != null)
+                return res.Select(x => x.Name).Aggregate("", (seed, x) => seed + x + '\n');
+            return "";
+        }
+
     }
 }
