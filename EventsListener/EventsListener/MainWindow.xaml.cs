@@ -23,9 +23,13 @@ namespace EventsListener
         public MainWindow()
         {
             InitializeComponent();
-            TextBlock.Text = Helper.ListOfEvents();
             Helper.LbEvents().ForEach(x=>ListBox.Items.Add(x));
             //ListBox.Items
+        }
+       
+        private void ListBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            TextBlock.Text = (((ListBoxItem) ListBox.SelectedItem).Content as RoutedEvent).Name;
         }
     }
 
@@ -40,17 +44,9 @@ namespace EventsListener
 
     public class Helper
     {
-        public static string ListOfEvents()
-        {
-            RoutedEvent[] res = Events();
-            if (res != null)
-                return res.Select(x => x.Name).Aggregate("", (seed, x) => seed + x + '\n');
-            return "";
-        }
-
         public static RoutedEvent[] Events()
         {
-            return EventManager.GetRoutedEventsForOwner(typeof(UIElement));
+            return EventManager.GetRoutedEvents();
         }
 
         public static IEnumerable<ListBoxItem> LbEvents()

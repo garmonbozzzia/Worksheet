@@ -13,11 +13,11 @@
         <Grid.RowDefinitions>
             <RowDefinition MinHeight="30" />
         </Grid.RowDefinitions>
-            <ScrollViewer Grid.Column="0">
+            <ScrollViewer Grid.Column="1">
                 <TextBlock  Name="TextBlock" TextWrapping="Wrap" Text="TextBlock" Background="White" HorizontalAlignment="Stretch" />
             </ScrollViewer>
-        <ScrollViewer Grid.Column="1">
-            <ListBox Name="ListBox" ></ListBox></ScrollViewer>
+        <ScrollViewer Grid.Column="0">
+            <ListBox Name="ListBox" SelectionChanged="ListBox_OnSelectionChanged"></ListBox></ScrollViewer>
         <Button Grid.Column="2" Name="Button1" Content="Button"  />
     </Grid>
 </Window>
