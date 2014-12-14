@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,12 +25,13 @@ namespace EventsListener
         {
             InitializeComponent();
             Helper.LbEvents().ForEach(x=>ListBox.Items.Add(x));
-            //ListBox.Items
+            Helper.SaveCategories();
         }
        
         private void ListBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             TextBlock.Text = (((ListBoxItem) ListBox.SelectedItem).Content as RoutedEvent).Name;
+            //(e.AddedItems[0] as RoutedEvent).
         }
     }
 
@@ -52,6 +54,21 @@ namespace EventsListener
         public static IEnumerable<ListBoxItem> LbEvents()
         {
             return Events().Select(x => new ListBoxItem {Content = x});
+        }
+
+        public static void SaveEvents()
+        {
+            File.WriteAllText("Events.txt", Helper.Events().Aggregate("", (s,x) => s+x+'\n'));
+        }
+
+        public static void SaveCategories()
+        {            
+            File.WriteAllText("EventCategories.txt", Helper.Events()
+                .Select(x => x.ToString())
+                //.Where(x => x.Contains('.'))
+                .Select(x => x.Substring(0, x.IndexOf('.')))
+                .Distinct()
+                .Aggregate("", (s, x) => s + x + '\n'));
         }
     }
 }
