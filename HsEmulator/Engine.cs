@@ -18,8 +18,10 @@ namespace HsEmulator
 
         public void Init()
         {
-            Player1 = new Player(3, "Player1");
-            Player2 = new Player(4, "Player2");
+            var deck1 = CardCollection.MixedDeck("1-1-1 2-2-2", "20 10");
+            var deck2 = CardCollection.MixedDeck("1-1-1 2-2-2", "10 20");
+            Player1 = new Player(3, "Player1", deck1);
+            Player2 = new Player(4, "Player2", deck2);
             Player2.Hand.Insert(0, Card.Coin);
             TurnNumber = 0;
         }

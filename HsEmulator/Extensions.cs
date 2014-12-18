@@ -9,5 +9,10 @@ namespace HsEmulator
         {
             return Enumerable.Repeat(x,1).Concat(xs);
         }
+
+        public static IEnumerable<T> Concat<T>(this IEnumerable<IEnumerable<T>> xs)
+        {
+            return xs.SelectMany(x => x);
+        }
     }
 }

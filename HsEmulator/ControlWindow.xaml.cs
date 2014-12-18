@@ -41,7 +41,8 @@ namespace HsEmulator
 
         private void OnBattle(object sender, RoutedEventArgs e)
         {
-            var result = String.Format("{0} wins on {1} turn", Engine.Battle(), Engine.TurnNumber );
+            var engine = new Engine();
+            var result = String.Format("{0} wins on {1} turn", engine.Battle(), engine.TurnNumber );
             Console.WriteLine(result);
         }
 
