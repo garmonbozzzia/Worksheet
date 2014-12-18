@@ -24,9 +24,18 @@ namespace HsEmulator
             InitializeComponent();
         }
 
+        public Engine Engine { get; set; }
+        public MainWindow MainWindow { get; set; }
+
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            Engine.Step();
+            MainWindow.Hand1Box.Items.Refresh();
+            MainWindow.Hand2Box.Items.Refresh();
+            MainWindow.Deck1Box.Items.Refresh();
+            MainWindow.Deck2Box.Items.Refresh();
+            MainWindow.Board1Box.Items.Refresh();
+            MainWindow.Board2Box.Items.Refresh();
         }
     }
 }

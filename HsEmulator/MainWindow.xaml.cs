@@ -19,12 +19,16 @@ namespace HsEmulator
     public partial class MainWindow : Window
     {
         public Engine Engine { get; set; }
+        public ControlWindow ControlWindow { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
             Engine = new Engine();
             Engine.Init();
+
+            ControlWindow = new ControlWindow {Engine = Engine, MainWindow = this};
+            ControlWindow.Show();
             
             Deck1Box.ItemsSource = Engine.Player1.Deck;
             Deck2Box.ItemsSource = Engine.Player2.Deck;
@@ -37,6 +41,13 @@ namespace HsEmulator
 
     public class HeroCard : Card
     {
+        public HeroCard()
+        {
+            Health = 30;
+            Mana = 0;
+            Attack = 0;
+        }
+
         public override string ToString()
         {
             return String.Format("{0}: {1}", Name, Health);
