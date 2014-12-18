@@ -26,12 +26,12 @@ namespace HsEmulator
             Engine = new Engine();
             Engine.Init();
             
-            Deck1Box.ItemsSource = Engine.Deck1;
-            Deck2Box.ItemsSource = Engine.Deck2;
-            Hand1Box.ItemsSource = Engine.Hand1;
-            Hand2Box.ItemsSource = Engine.Hand2;
-            Board1Box.ItemsSource = Engine.Board1;
-            Board2Box.ItemsSource = Engine.Board2;
+            Deck1Box.ItemsSource = Engine.Player1.Deck;
+            Deck2Box.ItemsSource = Engine.Player2.Deck;
+            Hand1Box.ItemsSource = Engine.Player1.Hand;
+            Hand2Box.ItemsSource = Engine.Player2.Hand;
+            Board1Box.ItemsSource = Engine.Player1.Board;
+            Board2Box.ItemsSource = Engine.Player2.Board;
         }
     }
 

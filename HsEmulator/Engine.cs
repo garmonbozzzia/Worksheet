@@ -5,26 +5,27 @@ namespace HsEmulator
 {
     public class Engine
     {
-        public List<Card> Deck1 { get; set; }
-        public List<Card> Deck2 { get; set; }
-        public List<Card> Hand1 { get; set; }
-        public List<Card> Hand2 { get; set; }
-        public List<Card> Board1 { get; set; }
-        public List<Card> Board2 { get; set; }
-
+        public Player Player1 { get; set; }
+        public Player Player2 { get; set; }
         public void Init()
         {
-            Deck1 = Enumerable.Range(0, 30).Select(x => Card.Generate()).ToList();
-            Deck2 = Enumerable.Range(0, 30).Select(x => Card.Generate()).ToList();
+            Player1 = new Player(3, "Player1");
+            Player2 = new Player(4, "Player2");
+        }
+    }
 
-            Hand1 = Deck1.Take(3).ToList();
-            Hand2 = Deck2.Take(4).ToList();
+    public class Player
+    {
+        public List<Card> Deck { get; set; }
+        public List<Card> Hand { get; set; }
+        public List<Card> Board { get; set; }
 
-            Board1 = Enumerable.Repeat(new Card { Health = 30, Mana = 0, Attack = 0, Name = "Player1" }, 1).ToList();
-            Board2 = Enumerable.Repeat(new Card { Health = 30, Mana = 0, Attack = 0, Name = "Player2" }, 1).ToList();
-
-            Deck1.RemoveRange(0, 3);
-            Deck2.RemoveRange(0, 4);
+        public Player(int numCards, string name)
+        {
+            Deck = Enumerable.Range(0, 30).Select(x => Card.Generate()).ToList();
+            Hand = Deck.Take(3).ToList();
+            Board = Enumerable.Repeat(new Card { Health = 30, Mana = 0, Attack = 0, Name = name }, 1).ToList();
+            Deck.RemoveRange(0, 3);
         }
     }
 }
