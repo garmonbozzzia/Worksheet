@@ -28,8 +28,20 @@ namespace HsEmulator
 
             var hand1 = deck1.Take(3).ToList();
             var hand2 = deck2.Take(4).ToList();
+
+            var board1 = Enumerable.Repeat(new Card {Health = 30, Mana = 0, Attack = 0, Name = "Player1"}, 1).ToList();
+            var board2 = Enumerable.Repeat(new Card {Health = 30, Mana = 0, Attack = 0, Name = "Player2"}, 1).ToList();
+
+
             deck1.RemoveRange(0,3);
             deck2.RemoveRange(0,4);
+
+            Deck1Box.ItemsSource = deck1;
+            Deck2Box.ItemsSource = deck2;
+            Hand1Box.ItemsSource = hand1;
+            Hand2Box.ItemsSource = hand2;
+            Board1Box.ItemsSource = board1;
+            Board2Box.ItemsSource = board2;
         }
     }
 
@@ -41,6 +53,12 @@ namespace HsEmulator
         public string Name { get; set; }
 
         public static Random Random = new Random();
+
+        public override string ToString()
+        {
+            return String.Format("M:{0}, A:{1}, H:{2}", Mana, Attack, Health);
+        }
+
         public static Card Generate()
         {
             var mana = Random.Next(10);
