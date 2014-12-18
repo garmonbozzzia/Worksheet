@@ -5,7 +5,7 @@ namespace HsEmulator
     public class Card
     {
         public int Mana { get; set; }
-        public int Attack { get; set; }
+        public int AttackValue { get; set; }
         public int Health { get; set; }
         public string Name { get; set; }
 
@@ -13,7 +13,7 @@ namespace HsEmulator
 
         public override string ToString()
         {
-            return String.Format("M:{0}, A:{1}, H:{2}", Mana, Attack, Health);
+            return String.Format("M:{0}, A:{1}, H:{2}", Mana, AttackValue, Health);
         }
 
         public static Card Generate()
@@ -22,9 +22,15 @@ namespace HsEmulator
             return new Card
             {
                 Mana = mana,
-                Attack = Random.Next(mana),
+                AttackValue = Random.Next(mana),
                 Health = Random.Next(mana) + 1
             };
+        }
+
+        public void Attack(Card card)
+        {
+            card.Health -= AttackValue;
+            Health -= card.AttackValue;
         }
     }
 }

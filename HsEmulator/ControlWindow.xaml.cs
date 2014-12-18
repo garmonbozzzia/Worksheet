@@ -27,15 +27,20 @@ namespace HsEmulator
         public Engine Engine { get; set; }
         public MainWindow MainWindow { get; set; }
 
-        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        private void OnStep(object sender, RoutedEventArgs e)
         {
-            Engine.Step();
+            Engine.Turn();
             MainWindow.Hand1Box.Items.Refresh();
             MainWindow.Hand2Box.Items.Refresh();
             MainWindow.Deck1Box.Items.Refresh();
             MainWindow.Deck2Box.Items.Refresh();
             MainWindow.Board1Box.Items.Refresh();
             MainWindow.Board2Box.Items.Refresh();
+        }
+
+        private void OnBattle(object sender, RoutedEventArgs e)
+        {
+            Console.WriteLine(Engine.Battle());
         }
     }
 }

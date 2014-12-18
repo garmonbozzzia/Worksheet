@@ -4,6 +4,11 @@ using System.Linq;
 
 namespace HsEmulator
 {
+    public class MassBattle
+    {
+        
+    }
+
     public class Engine
     {
         public Player Player1 { get; set; }
@@ -14,16 +19,34 @@ namespace HsEmulator
             Player2 = new Player(4, "Player2");
         }
 
-        public void Step()
+        public string Battle()
         {
-            Step(Player1);
-            Step(Player2);
+            Init();
+            var res = "";
+            do
+            {
+                res = Turn();
+            } while (String.IsNullOrEmpty(res));
+            return res;
         }
 
-        private static void Step(Player player)
+        public string Turn()
+        {
+            Turn(Player1, Player2);
+            if (Player1.Health <= 0) return Player1.Name;
+            if (Player2.Health <= 0) return Player2.Name;
+            Turn(Player2, Player1);
+            if (Player1.Health <= 0) return Player1.Name;
+            if (Player2.Health <= 0) return Player2.Name;
+
+            return "";
+        }
+
+        private static void Turn(Player player, Player opponent)
         {
             //Succ Mana
             player.Mana = player.Mana.NewStep();
+
             //GetCard
             if (player.Deck.Any())
             {
@@ -36,6 +59,14 @@ namespace HsEmulator
                 Player.FatigueValue++;
             }
 
+            if(player.Health <= 0)
+                return;
+
+            //Attack
+            player.Board.ForEach(x=>x.Attack(opponent));
+            player.Board.RemoveAll(x => x.Health <= 0);
+            opponent.Board.RemoveAll(x => x.Health <= 0);
+
             //PlayCards
             var playedCards = player.Hand.Aggregate(new {player.Mana, Cards = Enumerable.Empty<Card>()}, (res, card) =>
             {
@@ -44,8 +75,6 @@ namespace HsEmulator
             }).Cards.ToArray();
             player.Hand.RemoveAll(playedCards.Contains);
             player.Board.AddRange(playedCards);
-
-            //Attack
         }
     }
 

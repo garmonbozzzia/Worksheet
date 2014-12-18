@@ -3,6 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="ControlWindow" Height="300" Width="300">
     <Grid>
-        <Button Click="ButtonBase_OnClick"></Button>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Button Content="Step" Click="OnStep"></Button>
+        <Button Content="Full Battle" Grid.Row="1" Click="OnBattle"></Button>
     </Grid>
 </Window>

@@ -45,7 +45,7 @@ namespace HsEmulator
         {
             Health = 30;
             Mana = 0;
-            Attack = 0;
+            AttackValue = 0;
         }
 
         public override string ToString()
@@ -58,7 +58,7 @@ namespace HsEmulator
     {
         public override string ToString()
         {
-            return String.Format("A:{0} H:{1}", Attack, Health);
+            return String.Format("A:{0} H:{1}", AttackValue, Health);
         }
     }
 }
