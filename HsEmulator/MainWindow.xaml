@@ -11,11 +11,11 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <ListBox BorderThickness="5" Margin="20,10,10,10" Foreground="#6374B2" Background="#B29D63" Name="Deck1Box" Grid.Column="0"></ListBox>
-        <ListBox BorderThickness="5" Margin="10,10,20,10" Foreground="#6374B2" Background="#B29D63" Name="Deck2Box" Grid.Column="5"></ListBox>
-        <ListBox BorderThickness="5" Margin="10" Foreground="#6374B2" Background="#B29D63" Name="Hand1Box" Grid.Column="1"></ListBox>
-        <ListBox BorderThickness="5" Margin="10" Foreground="#6374B2" Background="#B29D63" Name="Hand2Box" Grid.Column="4"></ListBox>
-        <ListBox BorderThickness="5" Margin="10" Foreground="#6374B2" Background="#B29D63" Name="Board1Box" Grid.Column="2"></ListBox>
-        <ListBox BorderThickness="5" Margin="10" Foreground="#6374B2" Background="#B29D63" Name="Board2Box" Grid.Column="3"></ListBox>
+        <ListBox BorderThickness="10" Margin="20,10,10,10" Foreground="#6374B2" Background="#B29D63" Name="Deck1Box" Grid.Column="0"></ListBox>
+        <ListBox BorderThickness="10" Margin="10,10,20,10" Foreground="#6374B2" Background="#B29D63" Name="Deck2Box" Grid.Column="5"></ListBox>
+        <ListBox BorderThickness="10" Margin="10" Foreground="#6374B2" Background="#B29D63" Name="Hand1Box" Grid.Column="1"></ListBox>
+        <ListBox BorderThickness="10" Margin="10" Foreground="#6374B2" Background="#B29D63" Name="Hand2Box" Grid.Column="4"></ListBox>
+        <ListBox BorderThickness="10" Margin="10" Foreground="#6374B2" Background="#B29D63" Name="Board1Box" Grid.Column="2"></ListBox>
+        <ListBox BorderThickness="10" Margin="10" Foreground="#6374B2" Background="#B29D63" Name="Board2Box" Grid.Column="3"></ListBox>
     </Grid>
 </Window>
