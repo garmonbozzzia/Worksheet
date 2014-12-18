@@ -1,19 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace EventsListener
 {
@@ -28,6 +18,13 @@ namespace EventsListener
             TextBlock.Text = 0.ToString();
             Helper.LbEvents().ForEach(x=>ListBox.Items.Add(x));
             AddRandomAnimations();
+            AddMouseMove();
+            new Animations().Show();
+            //Helper.SaveCategories();
+        }
+
+        public void AddMouseMove()
+        {
             int count = 0;
             MouseMove += delegate(object s, MouseEventArgs e)
             {
@@ -43,21 +40,21 @@ namespace EventsListener
                     "Handled", e.Handled,
                 }.Select(x => x.ToString()));
             };
-            //Helper.SaveCategories();
         }
 
         private void AddRandomAnimations()
         {
             var animations = Helper.Animations();
+            
             ListBox.Items.Cast<ListBoxItem>()
-                .Zip( animations, delegate(ListBoxItem x, ColorAnimation y)
+                .Zip( animations, (x, y) =>
                 {
                     var brush = new SolidColorBrush();
                     x.Foreground = brush;
                     brush.BeginAnimation(SolidColorBrush.ColorProperty, y);
                     return x;
                 })
-                .Zip(animations, (x, y) =>
+                .Zip( animations, (x, y) =>
                 {
                     var brush = new SolidColorBrush();
                     x.Background = brush;
@@ -69,80 +66,9 @@ namespace EventsListener
 
         private void ListBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
-            //(e.AddedItems[0] as RoutedEvent).
-        }
-    }
-
-    public static class Extensions
-    {
-        public static void ForEach<T>(this IEnumerable<T> sequence, Action<T> action)
-        {
-            // argument null checking omitted
-            foreach (T item in sequence) action(item);
-        }
-    }
-
-    public class Helper
-    {
-        public static Random Random = new Random("tetet".GetHashCode());
-        public static IEnumerable<Color> Colors()
-        {
+            var item = e.AddedItems[0] as ListBoxItem;
             
-            var names = typeof (Colors).GetProperties().Select(x => x.Name).ToArray();
-            return RandomStream(max: names.Length)
-                .Select(i => names[i])
-                .Select(ColorConverter.ConvertFromString)
-                .Where(x=>x != null)
-                .Select(x=> (Color) x);
-            //System.Windows.Media.Colors.
-        }
-
-        public static IEnumerable<int> RandomStream(int max = int.MaxValue, int min = 0)
-        {
-            while (true)
-                yield return Random.Next(min, max);
-        }
-
-        public static IEnumerable<ColorAnimation> Animations()
-        {
-            var duration = TimeSpan.FromSeconds(1);
-            return Colors()
-                .Zip(Colors(),
-                    (x, y) =>
-                        new ColorAnimation
-                        {
-                            RepeatBehavior = RepeatBehavior.Forever,
-                            AutoReverse = true,
-                            From = x,
-                            To = y,
-                            Duration = duration
-                        });
-        }
-
-        public static RoutedEvent[] Events()
-        {
-            return EventManager.GetRoutedEvents();
-        }
-
-        public static IEnumerable<ListBoxItem> LbEvents()
-        {
-            return Events().Select(x => new ListBoxItem {Content = x});
-        }
-
-        public static void SaveEvents()
-        {
-            File.WriteAllText("Events.txt", Helper.Events().Aggregate("", (s,x) => s+x+'\n'));
-        }
-
-        public static void SaveCategories()
-        {            
-            File.WriteAllText("EventCategories.txt", Helper.Events()
-                .Select(x => x.ToString())
-                //.Where(x => x.Contains('.'))
-                .Select(x => x.Substring(0, x.IndexOf('.')))
-                .Distinct()
-                .Aggregate("", (s, x) => s + x + '\n'));
+            //(e.AddedItems[0] as RoutedEvent).
         }
     }
 }
