@@ -6,8 +6,10 @@
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <Button Content="Step" Click="OnStep"></Button>
         <Button Content="Full Battle" Grid.Row="1" Click="OnBattle"></Button>
+        <Button Content="1000" Grid.Row="2" Click="OnBattles"></Button>
     </Grid>
 </Window>

@@ -25,7 +25,6 @@ namespace HsEmulator
         {
             InitializeComponent();
             Engine = new Engine();
-            Engine.Init();
 
             ControlWindow = new ControlWindow {Engine = Engine, MainWindow = this};
             ControlWindow.Show();

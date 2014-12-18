@@ -29,7 +29,8 @@ namespace HsEmulator
 
         private void OnStep(object sender, RoutedEventArgs e)
         {
-            Engine.Turn();
+            var res = Engine.Turn();
+            if (!String.IsNullOrEmpty(res)) ((Button) sender).Content = res;
             MainWindow.Hand1Box.Items.Refresh();
             MainWindow.Hand2Box.Items.Refresh();
             MainWindow.Deck1Box.Items.Refresh();
@@ -40,7 +41,21 @@ namespace HsEmulator
 
         private void OnBattle(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine(Engine.Battle());
+            var result = String.Format("{0} wins on {1} turn", Engine.Battle(), Engine.TurnNumber );
+            Console.WriteLine(result);
+        }
+
+        private void OnBattles(object sender, RoutedEventArgs e)
+        {
+            int total = 1000;
+            var res = Enumerable.Range(1, total)
+                .Select(num => new {num, Engine = new Engine(), Winner = Engine.Battle(), Turn = Engine.TurnNumber}).ToArray();
+            
+            res.Select(x => String.Format("#{0}\t{1} wins on turn {2}", x.num, x.Winner, x.Turn))
+                .ToList().ForEach(Console.WriteLine);
+
+            var p1win = res.Count(x => x.Winner.Contains("Player1"));
+            Console.WriteLine("{0}/{1}", p1win, total - p1win);
         }
     }
 }

@@ -1,15 +1,24 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace HsEmulator
 {
+    public static class CardCollection
+    {
+        public static IEnumerable<Card> Shuffle(this IEnumerable<Card> deck)
+        {
+            return deck.OrderBy(x=>Engine.Random.Next());
+        }
+    }
+
     public class Card
     {
         public int Mana { get; set; }
         public int AttackValue { get; set; }
         public int Health { get; set; }
         public string Name { get; set; }
-
-        public static Random Random = new Random();
+        public static Card Coin = new Card {AttackValue = 0, Mana = -1, Health = -1, Name = "Coin"};
 
         public override string ToString()
         {
@@ -18,12 +27,22 @@ namespace HsEmulator
 
         public static Card Generate()
         {
-            var mana = Random.Next(10);
+            var mana = Engine.Random.Next(10);
             return new Card
             {
                 Mana = mana,
-                AttackValue = Random.Next(mana),
-                Health = Random.Next(mana) + 1
+                AttackValue = mana + Engine.Random.Next(1),
+                Health = 1
+            };
+        }
+
+        public static Card FixedMana(int mana)
+        {
+            return new Card
+            {
+                Mana = mana,
+                AttackValue = mana + Engine.Random.Next(1),
+                Health = 1
             };
         }
 
