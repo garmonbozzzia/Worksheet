@@ -10,7 +10,7 @@ namespace HsEmulator
 
         public static IEnumerable<Card> Shuffle(this IEnumerable<Card> deck)
         {
-            return deck.OrderBy(x=>Engine.Random.Next());
+             return deck.OrderBy(x => Engine.RandomGen.Next());                
         }
 
         public static IEnumerable<Card> ConstDeck(string card)
@@ -58,11 +58,11 @@ namespace HsEmulator
 
         public static Card Generate()
         {
-            var mana = Engine.Random.Next(10);
+            var mana = Engine.RandomGen.Next(10);
             return new Card
             {
                 Mana = mana,
-                AttackValue = mana + Engine.Random.Next(1),
+                AttackValue = mana + Engine.RandomGen.Next(1),
                 Health = 1
             };
         }

@@ -26,7 +26,7 @@ namespace HsEmulator
             InitializeComponent();
             Engine = new Engine();
 
-            ControlWindow = new ControlWindow {Engine = Engine, MainWindow = this};
+            ControlWindow = new ControlWindow {VisEngine = Engine, MainWindow = this};
             ControlWindow.Show();
             
             Deck1Box.ItemsSource = Engine.Player1.Deck;

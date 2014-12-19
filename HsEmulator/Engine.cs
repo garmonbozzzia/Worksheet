@@ -5,7 +5,48 @@ namespace HsEmulator
 {
     public class Engine
     {
-        public static Random Random = new Random();
+        public static class RandomGen
+        {
+            private static readonly Random Global = new Random();
+            [ThreadStatic]
+            private static Random _local;
+
+            public static int Next()
+            {
+                Random inst = _local;
+                if (inst == null)
+                {
+                    int seed;
+                    lock (Global) seed = Global.Next();
+                    _local = inst = new Random(seed);
+                }
+                return inst.Next();
+            }
+
+            public static int Next(int maxValue)
+            {
+                Random inst = _local;
+                if (inst == null)
+                {
+                    int seed;
+                    lock (Global) seed = Global.Next();
+                    _local = inst = new Random(seed);
+                }
+                return inst.Next(maxValue);
+            }
+
+            public static int Next(int minValue, int maxValue)
+            {
+                Random inst = _local;
+                if (inst == null)
+                {
+                    int seed;
+                    lock (Global) seed = Global.Next();
+                    _local = inst = new Random(seed);
+                }
+                return inst.Next(minValue, maxValue);
+            }
+        }
 
         public Player Player1 { get; set; }
         public Player Player2 { get; set; }

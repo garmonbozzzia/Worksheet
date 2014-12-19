@@ -24,12 +24,12 @@ namespace HsEmulator
             InitializeComponent();
         }
 
-        public Engine Engine { get; set; }
+        public Engine VisEngine { get; set; }
         public MainWindow MainWindow { get; set; }
 
         private void OnStep(object sender, RoutedEventArgs e)
         {
-            var res = Engine.Turn();
+            var res = VisEngine.Turn();
             if (!String.IsNullOrEmpty(res)) ((Button) sender).Content = res;
             MainWindow.Hand1Box.Items.Refresh();
             MainWindow.Hand2Box.Items.Refresh();
@@ -49,14 +49,18 @@ namespace HsEmulator
         private void OnBattles(object sender, RoutedEventArgs e)
         {
             int total = 1000;
-            var res = Enumerable.Range(1, total)
-                .Select(num => new {num, Engine = new Engine(), Winner = Engine.Battle(), Turn = Engine.TurnNumber}).ToArray();
+            var startTime = DateTime.Now;
+            var res = Enumerable.Range(1, total).AsParallel()
+                .Select(num => new {num, Engine = new Engine()})
+                .Select(x => new {x.num, Winner = x.Engine.Battle(), Turn = x.Engine.TurnNumber})
+                .ToArray();
             
-            res.Select(x => String.Format("#{0}\t{1} wins on turn {2}", x.num, x.Winner, x.Turn))
-                .ToList().ForEach(Console.WriteLine);
+            //res.Select(x => String.Format("#{0}\t{1} wins on turn {2}", x.num, x.Winner, x.Turn))
+              //  .ToList().ForEach(Console.WriteLine);
 
             var p1win = res.Count(x => x.Winner.Contains("Player1"));
             Console.WriteLine("{0}/{1}", p1win, total - p1win);
+            Console.WriteLine(DateTime.Now.Subtract(startTime).Milliseconds);
         }
     }
 }
