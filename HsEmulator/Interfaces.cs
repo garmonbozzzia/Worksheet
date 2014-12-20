@@ -6,7 +6,7 @@ namespace HsEmulator
     public interface IEffects
     {
         IEffect StartGame();
-        IEffect Round();
+        IEffect NextRound();
         IEffect Turn(object player1, object player2);
         IEffect RestoreMana(object player);
         IEffect DrawCard(object player);
@@ -47,6 +47,7 @@ namespace HsEmulator
         IEnumerable<ICardState> Result();
 
         String Name { get; set; }
+        int Id { get; set; }
     }
 
     public interface ICardState

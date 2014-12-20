@@ -12,25 +12,24 @@ namespace HsEmulator
         {
             var apply = new Func<IEffect, IEnumerable<IEffect>>(effect => 
                 //Turn(player1, player2).Cons( Turn(player2, player1).ListWrap())
-                1.ListWrap()
-                .Repeat(10)
-                .Select(_ => Round())
-                .SelectMany(x => x.Apply()
-                    .TakeWhileIncluding(y => y.Name != "GameOver")));
+                1.To()
+                .Select(_ => NextRound())
+                .SelectMany(x => x.Apply())
+                .TakeWhileIncluding(x => x.Name != "GameOver"));
             return new Effect(apply){Name = "StartGame"};
         }
 
-        public IEffect Round()
+        public IEffect NextRound()
         {
-            var player1 = new object();
-            var player2 = new object();
+            var player1 = "p1";
+            var player2 = "p2";
 
             var apply = new Func<IEffect, IEnumerable<IEffect>>(effect =>
-                Turn(player1, player2).Next(
-                Turn(player1, player2))
-                .SelectMany(x=>x.Apply())
-            );
-            return new Effect(apply) { Name = "StartGame" };
+                Turn(player1, player2)
+                    .Next(Turn(player2, player1))
+                    .SelectMany(x => x.Apply())
+                );
+            return new Effect(apply) { Name = "NextRound" };
         }
 
         //todo remove call apply through select
@@ -38,13 +37,12 @@ namespace HsEmulator
         public IEffect Turn(object player, object opponent)
         {
             var apply = new Func<IEffect, IEnumerable<IEffect>>(effect =>
-                RestoreMana(player).Next(
-                    DrawCard(player)).Next(
-                        //(player.Do(possibilities).Repeat)
-                        EndTurn())
-                    .SelectMany(x => x.Apply()
-                        .TakeWhileIncluding(y => y.Name != "EndTurn")));
-            return new Effect(apply){Name = "Turn"};
+                RestoreMana(player)
+                    .Next(DrawCard(player))
+                    .Next(EndTurn())
+                    .SelectMany(x => x.Apply())
+                    .TakeWhileIncluding(y => y.Name != "EndTurn"));
+            return new Effect(apply){Name = "Turn "+ player};
         }
 
         public IEffect GameOver()
@@ -105,8 +103,9 @@ namespace HsEmulator
         public IEffect EndTurn()
         {
             Console.WriteLine("EndTurn calling");
-            return Engine.RandomGen.Next(5) == 0 ? GameOver() 
-                : new Effect { Name = "EndTurn" };
+            return 
+                Engine.RandomGen.Next(5) == 0 ? GameOver() : 
+                new Effect { Name = "EndTurn" };
         }
 
         public IEffect PlayCard()

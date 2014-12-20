@@ -62,5 +62,10 @@ namespace HsEmulator
         {
             return Enumerable.Range(number, to - number + 1);
         }
+
+        public static IEnumerable<int> To(this int number)
+        {
+            return Enumerable.Range(number, int.MaxValue);
+        }
     }
 }

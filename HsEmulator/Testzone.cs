@@ -22,9 +22,19 @@ namespace HsEmulator
         [Test]
         public void StartGame()
         {
-            var res = new Effects().StartGame().Apply().Select(x=>x.Name).ToList();
-            Console.WriteLine(res.Count);
-            res.ForEach(Console.WriteLine);
+            new Effects().StartGame()
+                .Apply()
+                .Select(x => String.Format("--<{0}> {1}", x.Id, x.Name))
+                .ForEach(Console.WriteLine);
+        }
+
+        [Test]
+        public void NextRound()
+        {
+            new Effects().NextRound()
+                .Apply()
+                .Select(x => "--" + x.Name)
+                .ForEach(Console.WriteLine);
         }
 
         [Test]

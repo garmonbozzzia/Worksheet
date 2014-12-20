@@ -8,10 +8,13 @@ namespace HsEmulator
     public class Effect:IEffect
     {
         private readonly Func<IEffect, IEnumerable<IEffect>> _apply;
+        private static int IdGen = 1;
+
 
         public Effect(Func<IEffect, IEnumerable<IEffect>> apply)
         {
             _apply = apply;
+            Id = IdGen++;
             Head = () => new Effect {Name = Name};
         }
 
@@ -19,6 +22,7 @@ namespace HsEmulator
         {
             _apply = effect => Enumerable.Empty<IEffect>();
             Head = () => this;
+            Id = IdGen++;
             //_apply = effect => effect.ListWrap();
         }
 
@@ -35,5 +39,7 @@ namespace HsEmulator
         }
 
         public string Name { get; set; }
+        public int Id { get; set; }
+
     }
 }
