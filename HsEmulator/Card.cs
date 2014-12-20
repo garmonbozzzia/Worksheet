@@ -25,15 +25,15 @@ namespace HsEmulator
 
         public static IEnumerable<Card> MixedDeck(string cards, string distribution)
         {
-            return cards.Split(' ').Zip(
-                distribution.Split(' ').Select(int.Parse),
+            return cards.Trim().Split(' ').Zip(
+                distribution.Trim().Split(' ').Select(int.Parse),
                 (c, n) => Enumerable.Range(0, n).Select(_ => Parse(c))
                 ).Concat();
         }
 
         public static Card Parse(string card)
         {
-            var parse = card.Split('-').ToArray();
+            var parse = card.Trim().Split('-').ToArray();
             return new Card
             {
                 Mana = int.Parse(parse[0]),

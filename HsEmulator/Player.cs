@@ -19,7 +19,7 @@ namespace HsEmulator
         {
             FatigueValue = 1;
             Mana = new Mana {Limit = 0, Current = 0};
-            Deck = deck.Shuffle().ToList();
+            Deck = deck.ToList();
             Hand = Deck.Take(numCards).ToList();
             Board = Enumerable.Repeat(this, 1).Cast<Card>().ToList();
             Deck.RemoveRange(0, numCards);

@@ -22,6 +22,8 @@ namespace HsEmulator
         public ControlWindow()
         {
             InitializeComponent();
+            CardBox.Text = "Cards: 1-1-1 2-2-2\n";
+            CardBox.Text += "Distribution: 10 20";
         }
 
         public Engine VisEngine { get; set; }
@@ -40,18 +42,22 @@ namespace HsEmulator
         }
 
         private void OnBattle(object sender, RoutedEventArgs e)
-        {
-            var engine = new Engine();
+        {   
+            var deck1 = CardCollection.MixedDeck("1-1-1 4-5-2", "20 10").Shuffle();
+            var deck2 = CardCollection.MixedDeck("3-3-1 2-2-2", "10 20").Shuffle();
+            var engine = new Engine(deck1, deck2);
             var result = String.Format("{0} wins on {1} turn", engine.Battle(), engine.TurnNumber );
             Console.WriteLine(result);
         }
 
         private void OnBattles(object sender, RoutedEventArgs e)
         {
-            int total = 1000;
+            var deck1 = CardCollection.MixedDeck("1-1-1 4-5-2", "20 10").Shuffle();
+            var deck2 = CardCollection.MixedDeck("3-3-1 2-2-2", "10 20").Shuffle();
+            var total = 10000;
             var startTime = DateTime.Now;
             var res = Enumerable.Range(1, total).AsParallel()
-                .Select(num => new {num, Engine = new Engine()})
+                .Select(num => new { num, Engine = new Engine(deck1, deck2) })
                 .Select(x => new {x.num, Winner = x.Engine.Battle(), Turn = x.Engine.TurnNumber})
                 .ToArray();
             

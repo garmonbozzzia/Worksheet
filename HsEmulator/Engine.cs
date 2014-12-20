@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace HsEmulator
@@ -54,13 +55,16 @@ namespace HsEmulator
 
         public Engine()
         {
-            Init();
+            var deck1 = CardCollection.MixedDeck("1-1-1 4-5-2", "20 10").Shuffle();
+            var deck2 = CardCollection.MixedDeck("3-3-1 2-2-2", "10 20").Shuffle();
+            Player1 = new Player(3, "Player1", deck1);
+            Player2 = new Player(4, "Player2", deck2);
+            Player2.Hand.Insert(0, Card.Coin);
+            TurnNumber = 0;
         }
 
-        public void Init()
+        public Engine(IEnumerable<Card> deck1, IEnumerable<Card> deck2)
         {
-            var deck1 = CardCollection.MixedDeck("1-1-1 2-2-2", "20 10");
-            var deck2 = CardCollection.MixedDeck("1-1-1 2-2-2", "10 20");
             Player1 = new Player(3, "Player1", deck1);
             Player2 = new Player(4, "Player2", deck2);
             Player2.Hand.Insert(0, Card.Coin);
@@ -69,7 +73,6 @@ namespace HsEmulator
 
         public string Battle()
         {
-            Init();
             var res = "";
             do
             {

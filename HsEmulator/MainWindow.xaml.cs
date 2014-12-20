@@ -24,7 +24,9 @@ namespace HsEmulator
         public MainWindow()
         {
             InitializeComponent();
-            Engine = new Engine();
+            var deck1 = CardCollection.MixedDeck("1-1-1 4-5-2", "20 10").Shuffle();
+            var deck2 = CardCollection.MixedDeck("3-3-1 2-2-2", "10 20").Shuffle();
+            Engine = new Engine(deck1, deck2);
 
             ControlWindow = new ControlWindow {VisEngine = Engine, MainWindow = this};
             ControlWindow.Show();
