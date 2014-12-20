@@ -15,13 +15,13 @@ namespace HsEmulator
 
         public Effect()
         {
-            //_apply = effect => Enumerable.Empty<IEffect>();
-            _apply = effect => effect.ListWrap();
+            _apply = effect => Enumerable.Empty<IEffect>();
+            //_apply = effect => effect.ListWrap();
         }
 
         public IEnumerable<IEffect> Apply()
         {
-            return _apply(this);
+            return new Effect {Name = Name}.Cons(_apply(this));
         }
 
         public IEnumerable<ICardState> Result()

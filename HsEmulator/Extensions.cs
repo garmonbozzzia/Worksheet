@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using NUnit.Framework;
 
 namespace HsEmulator
 {
@@ -47,14 +48,19 @@ namespace HsEmulator
             return x.ListWrap().Next(y);
         }
 
-        public static IEnumerable<T> TakeWhileIncluding<T>(this IEnumerable<T> list, Func<T, bool> predicate)
+        public static IEnumerable<T> TakeWhileIncluding<T>(this IEnumerable<T> xs, Func<T, bool> p)
         {
-            foreach (var el in list)
+            foreach (var x in xs)
             {
-                yield return el;
-                if (predicate(el))
+                yield return x;
+                if (!p(x))
                     yield break;
             }
+        }
+
+        public static IEnumerable<int> To(this int number, int to)
+        {
+            return Enumerable.Range(number, to - number + 1);
         }
     }
 }

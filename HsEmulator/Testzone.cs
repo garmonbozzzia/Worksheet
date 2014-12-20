@@ -28,14 +28,54 @@ namespace HsEmulator
         }
 
         [Test]
-        public void T2()
+        public void ToTest()
         {
-            new Effects()
-                .EndTurnL()
-                .Repeat(30)
-                .SelectMany(x=>x.Apply())
-                .Select(x=>x.Name)
-                .ToList()
+            Console.WriteLine("1.To(35) is");
+            1.To(35).ForEach(x=> Console.Write("{0} ", x));
+        }
+
+        [Test]
+        public void EndTurn()
+        {
+            var effects = new Effects();
+            1.To(10)
+            .Select(x=>effects.EndTurn())
+            .SelectMany(x=>x.Apply())
+            .Select(x=>x.Name)
+            .ToList()
+            .ForEach(Console.WriteLine);
+        }
+
+        [Test]
+        public void TakeWhileIncluding()
+        {
+            Console.WriteLine("1.To(10) x<5");
+            1.To(10)
+                .TakeWhileIncluding(x=>x<5)
+                .ForEach(x=>Console.Write("{0} ",x));
+        }
+
+        [Test]
+        public void EndTurnLazy()
+        {
+            var effects = new Effects();
+            1.To(10)
+                .SelectMany(x => effects.EndTurn().ListWrap())
+                .SelectMany(x => x.Apply())
+                .Select(x => x.Name)
+                //.TakeWhileIncluding(x => x != "sGameOver")
+                .ForEach(Console.WriteLine);
+        }
+
+        [Test]
+        public void UntilGameOver()
+        {
+            var effects = new Effects();
+            1.To(10)
+                .SelectMany(x => effects.EndTurn().ListWrap())
+                .SelectMany(x => x.Apply())
+                .Select(x => x.Name)
+                .TakeWhileIncluding(x => x != "GameOver")
                 .ForEach(Console.WriteLine);
         }
 

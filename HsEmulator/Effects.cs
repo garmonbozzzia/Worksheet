@@ -10,17 +10,27 @@ namespace HsEmulator
     {
         public IEffect StartGame()
         {
-            var player1 = new object();
-            var player2 = new object();
-
             var apply = new Func<IEffect, IEnumerable<IEffect>>(effect => 
                 //Turn(player1, player2).Cons( Turn(player2, player1).ListWrap())
-                Turn(player1, player2)
-                .Next(Turn(player2, player1))
+                1.ListWrap()
                 .Repeat(10)
+                .Select(_ => Round())
                 .SelectMany(x => x.Apply()
                     .TakeWhileIncluding(y => y.Name != "GameOver")));
             return new Effect(apply){Name = "StartGame"};
+        }
+
+        public IEffect Round()
+        {
+            var player1 = new object();
+            var player2 = new object();
+
+            var apply = new Func<IEffect, IEnumerable<IEffect>>(effect =>
+                Turn(player1, player2).Next(
+                Turn(player1, player2))
+                .SelectMany(x=>x.Apply())
+            );
+            return new Effect(apply) { Name = "StartGame" };
         }
 
         //todo remove call apply through select

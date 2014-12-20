@@ -6,6 +6,7 @@ namespace HsEmulator
     public interface IEffects
     {
         IEffect StartGame();
+        IEffect Round();
         IEffect Turn(object player1, object player2);
         IEffect RestoreMana(object player);
         IEffect DrawCard(object player);
