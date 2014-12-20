@@ -14,5 +14,10 @@ namespace HsEmulator
         {
             return xs.SelectMany(x => x);
         }
+
+        public static IEnumerable<T> ListWrap<T> (this T x)
+        {
+            yield return x;
+        }
     }
 }
