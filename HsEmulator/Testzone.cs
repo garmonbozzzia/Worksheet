@@ -27,7 +27,8 @@ namespace HsEmulator
             {
                 IEnumerable<ICardState> newstates = action.Do()
                     .SelectMany(x => x.Apply() )
-                    .SelectMany(x => x.Result());
+                    .SelectMany(x => x.Result())
+                    ;
                 //todo replace oldstates
                 return newstates.SelectMany(x => x.Possibilities());
             }
@@ -38,83 +39,6 @@ namespace HsEmulator
         {
             
         }
-
-        public class Effects : IEffects
-        {
-            public IEffect StartGame()
-            {
-                object player1 = null;
-                object player2 = null;
-                StartTurn(player1, player2);
-            }
-
-            public IEffect StartTurn(object player1, object player2)
-            {
-                throw new NotImplementedException();
-            }
-
-            public IEffect RestoreMana()
-            {
-                throw new NotImplementedException();
-            }
-
-            public IEffect DrawCard()
-            {
-                throw new NotImplementedException();
-            }
-
-            public IEffect BattleCry()
-            {
-                throw new NotImplementedException();
-            }
-
-            public IEffect GetDamage()
-            {
-                throw new NotImplementedException();
-            }
-
-            public IEffect Deathrattle()
-            {
-                throw new NotImplementedException();
-            }
-
-            public IEffect Buff()
-            {
-                throw new NotImplementedException();
-            }
-
-            public IEffect Silence()
-            {
-                throw new NotImplementedException();
-            }
-
-            public IEffect Win()
-            {
-                throw new NotImplementedException();
-            }
-
-            public IEffect Lose()
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public interface IEffects
-        {
-            IEffect StartGame();
-            IEffect StartTurn(object player1, object player2);
-            IEffect RestoreMana();
-            IEffect DrawCard();
-            IEffect BattleCry();
-            IEffect GetDamage();
-            IEffect Deathrattle();
-            IEffect Buff();
-            IEffect Silence();
-            IEffect Win();
-            IEffect Lose();
-        }
-
-
 
         //EndTurn :: Action
         //PlayCard :: Action
@@ -139,9 +63,9 @@ namespace HsEmulator
         //RemoveFromBoard :: Effect
 
 
-        public class StartTurn : Testzone.IEffect
+        public class StartTurn : IEffect
         {
-            public IEnumerable<Testzone.IEffect> Apply()
+            public IEnumerable<IEffect> Apply()
             {
                 foreach (var effect in StartTurnEffects())
                     yield return effect;
@@ -155,7 +79,7 @@ namespace HsEmulator
                 throw new NotImplementedException();
             }
 
-            public IEnumerable<Testzone.ICardState> Result()
+            public IEnumerable<ICardState> Result()
             {
                 throw new NotImplementedException();
             }
@@ -216,25 +140,6 @@ namespace HsEmulator
             }
         }
 
-        public interface IEffect
-        {
-            //Effect->[Effect]
-            IEnumerable<IEffect> Apply();
-
-            //Effect->[State]
-            IEnumerable<ICardState> Result();
-        }
-
-        public interface ICardState
-        {
-            IEnumerable<IAction> Possibilities();
-        }
-
-        public interface IAction
-        {
-            //action->[Effect]
-            IEnumerable<IEffect> Do();
-        }
 
         public interface IActor
         {

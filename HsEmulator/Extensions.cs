@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -18,6 +19,12 @@ namespace HsEmulator
         public static IEnumerable<T> ListWrap<T> (this T x)
         {
             yield return x;
+        }
+
+        public static void ForEach<T>(this IEnumerable<T> xs, Action<T> action)
+        {
+            foreach (var x in xs)
+                action(x);
         }
     }
 }

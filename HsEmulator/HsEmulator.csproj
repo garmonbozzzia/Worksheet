@@ -57,6 +57,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Effects.cs" />
+    <Compile Include="Interfaces.cs" />
     <Compile Include="Testzone.cs" />
     <Page Include="ControlWindow.xaml">
       <SubType>Designer</SubType>
