@@ -20,7 +20,7 @@ namespace HsEmulator
         }
 
         [Test]
-        public void MyMethod()
+        public void StartGame()
         {
             var res = new Effects().StartGame().Apply().Select(x=>x.Name).ToList();
             Console.WriteLine(res.Count);
@@ -35,15 +35,26 @@ namespace HsEmulator
         }
 
         [Test]
+        public void EndTurnOneCall()
+        {
+            new Effects().EndTurn()
+                .ListWrap()
+                .Repeat(10)
+                .SelectMany(x => x.Apply())
+                .Select(x => x.Name)
+                .ForEach(Console.WriteLine);
+        }
+
+        [Test]
         public void EndTurn()
         {
             var effects = new Effects();
             1.To(10)
-            .Select(x=>effects.EndTurn())
-            .SelectMany(x=>x.Apply())
-            .Select(x=>x.Name)
-            .ToList()
-            .ForEach(Console.WriteLine);
+                .Select(x => effects.EndTurn())
+                .SelectMany(x => x.Apply())
+                .Select(x => x.Name)
+                .ToList()
+                .ForEach(Console.WriteLine);
         }
 
         [Test]
