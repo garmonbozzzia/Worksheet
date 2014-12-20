@@ -59,6 +59,7 @@
     </ApplicationDefinition>
     <Compile Include="Effects.cs" />
     <Compile Include="Interfaces.cs" />
+    <Compile Include="TestEngine.cs" />
     <Compile Include="Testzone.cs" />
     <Page Include="ControlWindow.xaml">
       <SubType>Designer</SubType>

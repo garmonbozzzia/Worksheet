@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace HsEmulator
@@ -15,6 +16,12 @@ namespace HsEmulator
         IEffect Silence();
         IEffect Win();
         IEffect Lose();
+
+        IEffect PlaceCardOnHand();
+        IEffect PlaceCardOnBoard();
+        IEffect BecomeSleep();
+        IEffect BecomeActive();
+        IEffect RemoveFromBoard();
     }
 
     public interface IEffect
@@ -24,6 +31,8 @@ namespace HsEmulator
 
         //Effect->[State]
         IEnumerable<ICardState> Result();
+
+        String Name { get; set; }
     }
 
     public interface ICardState
