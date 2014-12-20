@@ -1,45 +1,27 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace HsEmulator
 {
-    public static class CardCollection
+    public class HeroCard : Card
     {
-
-
-        public static IEnumerable<Card> Shuffle(this IEnumerable<Card> deck)
+        public HeroCard()
         {
-             return deck.OrderBy(x => Engine.RandomGen.Next());                
+            Health = 30;
+            Mana = 0;
+            AttackValue = 0;
         }
 
-        public static IEnumerable<Card> ConstDeck(string card)
+        public override string ToString()
         {
-            return Enumerable.Range(0, 30).Select(x => CardCollection.Parse(card));
+            return String.Format("{0}: {1}", Name, Health);
         }
+    }
 
-        public static IEnumerable<Card> MixedDeck( IEnumerable<Card> cards, IEnumerable<int> distribution )
+    public class BoardCard : Card
+    {
+        public override string ToString()
         {
-            return cards.Zip(distribution, Enumerable.Repeat).Concat();
-        }
-
-        public static IEnumerable<Card> MixedDeck(string cards, string distribution)
-        {
-            return cards.Trim().Split(' ').Zip(
-                distribution.Trim().Split(' ').Select(int.Parse),
-                (c, n) => Enumerable.Range(0, n).Select(_ => Parse(c))
-                ).Concat();
-        }
-
-        public static Card Parse(string card)
-        {
-            var parse = card.Trim().Split('-').ToArray();
-            return new Card
-            {
-                Mana = int.Parse(parse[0]),
-                AttackValue = int.Parse(parse[1]),
-                Health = int.Parse(parse[2])
-            };
+            return String.Format("A:{0} H:{1}", AttackValue, Health);
         }
     }
 

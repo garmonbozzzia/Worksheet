@@ -22,8 +22,6 @@ namespace HsEmulator
         public ControlWindow()
         {
             InitializeComponent();
-            CardBox.Text = "Cards: 1-1-1 2-2-2\n";
-            CardBox.Text += "Distribution: 10 20";
         }
 
         public Engine VisEngine { get; set; }

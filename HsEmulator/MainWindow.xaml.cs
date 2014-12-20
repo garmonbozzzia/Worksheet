@@ -39,27 +39,4 @@ namespace HsEmulator
             Board2Box.ItemsSource = Engine.Player2.Board;
         }
     }
-
-    public class HeroCard : Card
-    {
-        public HeroCard()
-        {
-            Health = 30;
-            Mana = 0;
-            AttackValue = 0;
-        }
-
-        public override string ToString()
-        {
-            return String.Format("{0}: {1}", Name, Health);
-        }
-    }
-
-    public class BoardCard : Card
-    {
-        public override string ToString()
-        {
-            return String.Format("A:{0} H:{1}", AttackValue, Health);
-        }
-    }
 }
