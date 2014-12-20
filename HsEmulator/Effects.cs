@@ -2,31 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace HsEmulator
 {
-    public class Effect:IEffect
-    {
-        private readonly Func<IEffect, IEnumerable<IEffect>> _apply;
-
-        public Effect(Func<IEffect, IEnumerable<IEffect>> apply)
-        {
-            _apply = apply;
-        }
-
-        public IEnumerable<IEffect> Apply()
-        {
-            return _apply(this);
-        }
-
-        public IEnumerable<ICardState> Result()
-        {
-            throw new NotImplementedException();
-        }
-
-        public string Name { get; set; }
-    }
-
     public class Effects : IEffects
     {
         public IEffect StartGame()
@@ -34,92 +13,125 @@ namespace HsEmulator
             var player1 = new object();
             var player2 = new object();
 
+            var apply = new Func<IEffect, IEnumerable<IEffect>>(effect => 
+                //Turn(player1, player2).Cons( Turn(player2, player1).ListWrap())
+                Turn(player1, player2)
+                .Next(Turn(player2, player1))
+                .Repeat(10)
+                .SelectMany(x => x.Apply()
+                    .TakeWhileIncluding(y => y.Name != "GameOver")));
+            return new Effect(apply){Name = "StartGame"};
+        }
+
+        //todo remove call apply through select
+        //todo check Repeat function
+        public IEffect Turn(object player, object opponent)
+        {
             var apply = new Func<IEffect, IEnumerable<IEffect>>(effect =>
-            {
-                var p1Turn = StartTurn(player1, player2).Apply();
-                var p2Turn = StartTurn(player2, player1).Apply();
-                return 
-                    p1Turn.Concat(p2Turn)
-                    .Repeat()
-                    .TakeWhile(x=>x.Name != "GameOver");
-                
-            });
-            return new Effect(apply);
+                RestoreMana(player).Next(
+                    DrawCard(player)).Next(
+                        //(player.Do(possibilities).Repeat)
+                        EndTurn())
+                    .SelectMany(x => x.Apply()
+                        .TakeWhileIncluding(y => y.Name != "EndTurn")));
+            return new Effect(apply){Name = "Turn"};
         }
 
-        public IEffect StartTurn(object player, object opponent)
+        public IEffect GameOver()
         {
-            throw new NotImplementedException();
+            return new Effect { Name = "GameOver" };
         }
 
-        public IEffect RestoreMana()
+        public IEffect RestoreMana(object player)
         {
-            throw new NotImplementedException();
+            return new Effect{Name = "RestoreMana"};
         }
 
-        public IEffect DrawCard()
+        public IEffect DrawCard(object player)
         {
-            throw new NotImplementedException();
+            return new Effect { Name = "DrawCard" };
         }
 
         public IEffect BattleCry()
         {
-            throw new NotImplementedException();
+            return new Effect { Name = "DrawCard" };
         }
 
         public IEffect GetDamage()
         {
-            throw new NotImplementedException();
+            return new Effect { Name = "GetDamage" };
         }
 
         public IEffect Deathrattle()
         {
-            throw new NotImplementedException();
+            return new Effect { Name = "" };
         }
 
         public IEffect Buff()
         {
-            throw new NotImplementedException();
+            return new Effect { Name = "" };
         }
 
         public IEffect Silence()
         {
-            throw new NotImplementedException();
+            return new Effect { Name = "" };
         }
 
         public IEffect Win()
         {
-            throw new NotImplementedException();
+            return new Effect { Name = "Win" };
         }
 
         public IEffect Lose()
+        {
+            return new Effect { Name = "Lose" };
+        }
+
+        public IEnumerable<IEffect> EndTurnL()
+        {
+            yield return EndTurn();
+        }
+
+        public IEffect EndTurn()
+        {
+            Console.WriteLine("EndTurn calling");
+            return Engine.RandomGen.Next(5) == 0 ? GameOver() 
+                : new Effect { Name = "EndTurn" };
+        }
+
+        public IEffect PlayCard()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEffect Attack()
         {
             throw new NotImplementedException();
         }
 
         public IEffect PlaceCardOnHand()
         {
-            throw new NotImplementedException();
+            return new Effect { Name = "" };
         }
 
         public IEffect PlaceCardOnBoard()
         {
-            throw new NotImplementedException();
+            return new Effect { Name = "" };
         }
 
         public IEffect BecomeSleep()
         {
-            throw new NotImplementedException();
+            return new Effect { Name = "" };
         }
 
         public IEffect BecomeActive()
         {
-            throw new NotImplementedException();
+            return new Effect { Name = "" };
         }
 
         public IEffect RemoveFromBoard()
         {
-            throw new NotImplementedException();
+            return new Effect { Name = "" };
         }
     }
 }

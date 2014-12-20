@@ -19,6 +19,26 @@ namespace HsEmulator
             File.WriteAllText("Output.txt", "output");
         }
 
+        [Test]
+        public void MyMethod()
+        {
+            var res = new Effects().StartGame().Apply().Select(x=>x.Name).ToList();
+            Console.WriteLine(res.Count);
+            res.ForEach(Console.WriteLine);
+        }
+
+        [Test]
+        public void T2()
+        {
+            new Effects()
+                .EndTurnL()
+                .Repeat(30)
+                .SelectMany(x=>x.Apply())
+                .Select(x=>x.Name)
+                .ToList()
+                .ForEach(Console.WriteLine);
+        }
+
         public interface IActor
         {
             Action Pick(IEnumerable<Action> possibilities);

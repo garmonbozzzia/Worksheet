@@ -26,15 +26,35 @@ namespace HsEmulator
             return xss.SelectMany(xs => xs);
         }
 
-        public static IEnumerable<T> Repeat<T>(this IEnumerable<T> xs)
+        public static IEnumerable<T> Repeat<T>(this IEnumerable<T> xs, int repeat = int.MaxValue)
         {
-            return Enumerable.Range(1,int.MaxValue).SelectMany(_=>xs);
+            return Enumerable.Range(1,repeat).SelectMany(_=>xs);
         }
 
         public static void ForEach<T>(this IEnumerable<T> xs, Action<T> action)
         {
             foreach (var x in xs)
                 action(x);
+        }
+
+        public static IEnumerable<T> Next<T>(this IEnumerable<T> xs, T x)
+        {
+            return xs.Concat(x.ListWrap());
+        }
+
+        public static IEnumerable<T> Next<T>(this T x, T y)
+        {
+            return x.ListWrap().Next(y);
+        }
+
+        public static IEnumerable<T> TakeWhileIncluding<T>(this IEnumerable<T> list, Func<T, bool> predicate)
+        {
+            foreach (var el in list)
+            {
+                yield return el;
+                if (predicate(el))
+                    yield break;
+            }
         }
     }
 }
