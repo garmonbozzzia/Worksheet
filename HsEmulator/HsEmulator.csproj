@@ -57,12 +57,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ActorTestZone.cs" />
-    <Compile Include="Effect.cs" />
-    <Compile Include="Effects.cs" />
-    <Compile Include="Interfaces.cs" />
-    <Compile Include="TestEngine.cs" />
-    <Compile Include="Testzone.cs" />
     <Page Include="ControlWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

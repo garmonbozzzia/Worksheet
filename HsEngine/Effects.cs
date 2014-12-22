@@ -1,10 +1,9 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
+using HsEmulator;
 
-namespace HsEmulator
+namespace HsEngine
 {
     public class Effects : IEffects
     {

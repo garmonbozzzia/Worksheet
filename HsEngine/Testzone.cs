@@ -1,13 +1,10 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Windows.Media.Effects;
+using HsEmulator;
 using NUnit.Framework;
-using NUnit.Framework.Internal;
 
-namespace HsEmulator
+namespace HsEngine
 {
     public class Testzone
     {
@@ -15,8 +12,8 @@ namespace HsEmulator
         public void CreateInputAndOutput()
         {
             Console.WriteLine(Environment.CurrentDirectory);
-            File.WriteAllText("Input.txt", "input");
-            File.WriteAllText("Output.txt", "output");
+            File.WriteAllText("Input.txt", "");
+            File.WriteAllText("Output.txt", "");
         }
 
         [Test]
