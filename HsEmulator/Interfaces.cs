@@ -24,6 +24,8 @@ namespace HsEmulator
         IEffect PlayCard();
         IEffect Attack();
 
+        IEffect PlayerActions();
+
         IEffect PlaceCardOnHand();
         IEffect PlaceCardOnBoard();
         IEffect BecomeSleep();
@@ -48,6 +50,15 @@ namespace HsEmulator
 
         String Name { get; set; }
         int Id { get; set; }
+    }
+
+    public class CardInstance
+    {
+        public Card Card { get; set; }
+        public int Mana { get; set; }
+        public int Attack { get; set; }
+        public int Hp { get; set; }
+        public List<String> Buffs { get; set; }
     }
 
     public interface ICardState

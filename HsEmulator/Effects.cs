@@ -39,6 +39,7 @@ namespace HsEmulator
             var apply = new Func<IEffect, IEnumerable<IEffect>>(effect =>
                 RestoreMana(player)
                     .Next(DrawCard(player))
+                    .Next(PlayerActions())
                     .Next(EndTurn())
                     .SelectMany(x => x.Apply())
                     .TakeWhileIncluding(y => y.Name != "EndTurn"));
@@ -65,7 +66,7 @@ namespace HsEmulator
             return new Effect { Name = "DrawCard" };
         }
 
-        public IEffect GetDamage()
+        public IEffect GetDamage(CardInstance card)
         {
             return new Effect { Name = "GetDamage" };
         }
@@ -116,6 +117,11 @@ namespace HsEmulator
         public IEffect Attack()
         {
             throw new NotImplementedException();
+        }
+
+        public IEffect PlayerActions()
+        {
+            return new Effect { Name = "PlayerActions" };
         }
 
         public IEffect PlaceCardOnHand()

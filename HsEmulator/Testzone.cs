@@ -99,25 +99,5 @@ namespace HsEmulator
                 .TakeWhileIncluding(x => x != "GameOver")
                 .ForEach(Console.WriteLine);
         }
-
-        public interface IActor
-        {
-            Action Pick(IEnumerable<Action> possibilities);
-            //get possibilities
-            //pick
-            //get state changes
-            //wait for reaction
-            //possibilities: attack(c1,c2) end_turn play_card playcard(target)
-            //engine: action->dimhp(c1)->dimhp(c2)->(maybe)dead->send possibilities+states
-        }
-
-        public class BattleObserver
-        {
-            //card type,instance
-            //attack observer
-            //turn observer
-            //life length observer
-
-        }
     }
 }
