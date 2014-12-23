@@ -2,17 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace HsEmulator
+namespace HsEngine
 {
     public interface IEffects
     {
         IEffect StartGame();
         IEffect NextRound();
-        IEffect Turn(object player1, object player2);
-        IEffect RestoreMana(object player);
-        IEffect DrawCard(object player);
+        IEffect Turn(Player player1);
+        IEffect RestoreMana(Player player);
+        IEffect DrawCard(Player player);
         IEffect BattleCry();
-        IEffect GetDamage(CardInstance card);
+        IEffect GetDamage(CardInstance card, int val);
+        IEffect Death(CardInstance card);        
         IEffect Deathrattle();
         IEffect Buff();
         IEffect Silence();
@@ -23,7 +24,7 @@ namespace HsEmulator
 
         IEffect EndTurn();
         IEffect PlayCard();
-        IEffect Attack();
+        IEffect Attack(CardInstance attacker, CardInstance target);
 
         IEffect PlayerActions();
 
@@ -53,15 +54,7 @@ namespace HsEmulator
         int Id { get; set; }
     }
 
-    public class CardInstance
-    {
-        public Card Card { get; set; }
-        public int Mana { get; set; }
-        public int Attack { get; set; }
-        public int Hp { get; set; }
-        public List<String> Buffs { get; set; }
-    }
-
+    //todo delete
     public interface ICardState
     {
         IEnumerable<IAction> Possibilities();

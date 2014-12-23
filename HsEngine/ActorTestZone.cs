@@ -21,20 +21,7 @@ namespace HsEngine
                                   "3-4-2";
 
 
-        public class Player
-        {
-            public List<CardInstance> Deck;
-            public List<CardInstance> Hand;
-            public List<CardInstance> Board;
-            public List<CardInstance> Garbage;
 
-            public IActor Actor { get; set; }
-
-            public Player(IEnumerable<CardInstance> deck)
-            {
-                Deck = deck.ToList();
-            }
-        }
 
         [Test]
         public void SimplestActor()

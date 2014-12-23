@@ -44,9 +44,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActorTestZone.cs" />
+    <Compile Include="CardInstance.cs" />
     <Compile Include="Effect.cs" />
     <Compile Include="Effects.cs" />
     <Compile Include="Interfaces.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestEngine.cs" />
     <Compile Include="Testzone.cs" />

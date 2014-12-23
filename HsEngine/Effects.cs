@@ -1,31 +1,36 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.ExceptionServices;
 using HsEmulator;
 
 namespace HsEngine
 {
     public class Effects : IEffects
     {
+        public Player Player1 { get; set; }
+        public Player Player2 { get; set; }
+
         public IEffect StartGame()
         {
-            var apply = new Func<IEffect, IEnumerable<IEffect>>(effect => 
+            var apply = new Func<IEffect, IEnumerable<IEffect>>(effect =>
                 //Turn(player1, player2).Cons( Turn(player2, player1).ListWrap())
-                1.To()
-                .Select(_ => NextRound())
-                .SelectMany(x => x.Apply())
-                .TakeWhileIncluding(x => x.Name != "GameOver"));
+                //DrawCard(Player1)
+                1.To(3).Select(_ => DrawCard(Player1))
+                    .Next(1.To(4).Select(_ => DrawCard(Player2)))
+                    .Next(1.To().Select(_ => NextRound()))
+                    .SelectMany(x => x)
+                    //.Next(AddCoin(Player2))
+                    .SelectMany(x => x.Apply())
+                    .TakeWhileIncluding(x => x.Name != "GameOver"));
             return new Effect(apply){Name = "StartGame"};
         }
 
         public IEffect NextRound()
         {
-            var player1 = "p1";
-            var player2 = "p2";
-
             var apply = new Func<IEffect, IEnumerable<IEffect>>(effect =>
-                Turn(player1, player2)
-                    .Next(Turn(player2, player1))
+                Turn(Player1)
+                    .Next(Turn(Player2))
                     .SelectMany(x => x.Apply())
                 );
             return new Effect(apply) { Name = "NextRound" };
@@ -33,7 +38,7 @@ namespace HsEngine
 
         //todo remove call apply through select
         //todo check Repeat function
-        public IEffect Turn(object player, object opponent)
+        public IEffect Turn(Player player)
         {
             var apply = new Func<IEffect, IEnumerable<IEffect>>(effect =>
                 RestoreMana(player)
@@ -50,13 +55,21 @@ namespace HsEngine
             return new Effect { Name = "GameOver" };
         }
 
-        public IEffect RestoreMana(object player)
+        public IEffect RestoreMana(Player player)
         {
             return new Effect{Name = "RestoreMana"};
         }
 
-        public IEffect DrawCard(object player)
+        public IEffect DrawCard(Player player)
         {
+            var apply = new Func<IEffect, IEnumerable<IEffect>>(effect => 
+                //player.Deck.Any() ? 
+                    //player.Hand.Count() < 10 ?
+                        //AddCardToHand(player, player.Deck.First()):
+                        //AddCardFromDeckToGarbage(player, player.Deck.First()):
+                    //DamageFromFatigue
+                null
+            );
             return new Effect { Name = "DrawCard" };
         }
 
@@ -65,9 +78,19 @@ namespace HsEngine
             return new Effect { Name = "DrawCard" };
         }
 
-        public IEffect GetDamage(CardInstance card)
+        public IEffect GetDamage(CardInstance card, int val)
         {
+            card.Hp -= val;
+            if (card.Hp <= 0) Death(card);
+                
             return new Effect { Name = "GetDamage" };
+        }
+
+        public IEffect Death(CardInstance card)
+        {
+            //MoveToGarbage
+            //card.Deathrattle
+            return new Effect { Name = "Death" };
         }
 
         public IEffect Deathrattle()
@@ -113,9 +136,9 @@ namespace HsEngine
             throw new NotImplementedException();
         }
 
-        public IEffect Attack()
+        public IEffect Attack(CardInstance attacker, CardInstance target)
         {
-            throw new NotImplementedException();
+            return attacker.Attack(target);
         }
 
         public IEffect PlayerActions()
