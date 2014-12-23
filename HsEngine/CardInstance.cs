@@ -41,9 +41,10 @@ namespace HsEngine
         public IEffect Death()
         {
             //MoveToGarbage
-            Owner.MoveFromBoardToGarbage(this);
+            var apply = new Func<IEffect, IEnumerable<IEffect>>(effect =>
+                Owner.MoveFromBoardToGarbage(this).Next(Deathrattle).SelectMany(x => x.Apply()));
             //Deathrattle
-            return new Effect { Type = "Death" };
+            return new Effect(apply) { Type = "Death" };
         }
     }
 }

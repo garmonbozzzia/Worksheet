@@ -8,7 +8,7 @@ namespace HsEngine
 {
     public class Testzone
     {
-        private string testDeck = String.Concat(Enumerable.Repeat("3-4-2 ", 10)).Trim();
+        private string testDeck = String.Concat(Enumerable.Repeat("3-4-2 ", 20)).Trim();
 
         [Test]
         public void CreateInputAndOutput()
@@ -34,10 +34,12 @@ namespace HsEngine
                 .Select(Card.Parse)
                 .Select(x => x.Instance());
             var hero = Card.Parse("0-0-30").Instance();
-            var p = new Player(deck, hero);
-            1.To(20)
-                .Select(_=>Effects.Instance().DrawCard(p))
-                .SelectMany(x=>x.Apply())
+            var p = new Player(deck);
+            p.Opponent = p;
+            1.To()
+                .Select(_ => Effects.Instance().DrawCard(p))
+                .SelectMany(x => x.Apply())
+                .TakeWhileIncluding(x => x.Type != "GameOver")
                 .Select(x => String.Format("--<{0}> {1}", x.Id, x.Type))
                 .ForEach(Console.WriteLine);
         }

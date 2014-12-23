@@ -5,11 +5,26 @@ using HsEmulator;
 
 namespace HsEngine
 {
+
+
     public class Effect:IEffect
     {
         private readonly Func<IEffect, IEnumerable<IEffect>> _apply;
         private static int IdGen = 1;
 
+        internal class NothingEffect : IEffect
+        {
+            public IEnumerable<IEffect> Apply() { yield break; }
+            public IEnumerable<ICardState> Result()
+            {
+                yield break;
+            }
+
+            public string Type { get; set; }
+            public int Id { get; set; }
+        }
+
+        public static readonly IEffect Nothing = new NothingEffect(){Id = 0};
 
         public Effect(Func<IEffect, IEnumerable<IEffect>> apply)
         {

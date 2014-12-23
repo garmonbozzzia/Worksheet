@@ -17,16 +17,27 @@ namespace HsEngine
 
         public Player Opponent { get; set; }
 
-        public Player(IEnumerable<CardInstance> deck, CardInstance hero)
+        public Player(IEnumerable<CardInstance> deck)
         {
-            Hero = hero;
             Deck = deck.ToList();
+            Deck.ForEach(x => x.Owner = this);
             Hand = new List<CardInstance>();
             Board = new List<CardInstance>();
             Garbage = new List<CardInstance>();
 
+            Hero = Card.Parse("0-0-30").Instance();
+            Hero.Deathrattle = Lose();
             Hero.Owner = this;
-            Deck.ForEach(x=>x.Owner=this);
+        }
+
+        public IEffect Lose()
+        {
+            return new Effect(_ => Opponent.Win().Apply()) {Type = "Lose"};
+        }
+
+        public IEffect Win()
+        {
+            return new Effect(_ => Effects.Instance().GameOver().Apply()) {Type = "Win"};
         }
 
         public IEffect DrawCard()

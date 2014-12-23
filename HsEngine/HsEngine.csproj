@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActorTestZone.cs" />
+    <Compile Include="Card.cs" />
     <Compile Include="CardInstance.cs" />
     <Compile Include="Effect.cs" />
     <Compile Include="Effects.cs" />
