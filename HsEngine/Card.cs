@@ -4,6 +4,8 @@ namespace HsEngine
 {
     public class Card
     {
+        //static Card Coin = Card.Parse("-1 0 0")
+
         public int Mana { get; set; }
         public int Attack { get; set; }
         public int Hp { get; set; }

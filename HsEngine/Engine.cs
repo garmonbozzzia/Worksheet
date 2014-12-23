@@ -42,8 +42,6 @@ namespace HsEngine
             return new Effect(apply) { Type = "NextRound" };
         }
 
-        //todo remove call apply through select
-        //todo check Repeat function
         public IEffect Turn(Player player)
         {
             var apply = new Func<IEffect, IEnumerable<IEffect>>(effect =>
