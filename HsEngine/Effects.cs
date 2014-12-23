@@ -16,11 +16,11 @@ namespace HsEngine
         public Player Player1 { get; set; }
         public Player Player2 { get; set; }
 
+
+
         public IEffect StartGame()
         {
             var apply = new Func<IEffect, IEnumerable<IEffect>>(effect =>
-                //Turn(player1, player2).Cons( Turn(player2, player1).ListWrap())
-                //DrawCard(Player1)
                 1.To(3).Select(_ => DrawCard(Player1))
                     .Next(1.To(4).Select(_ => DrawCard(Player2)))
                     .Next(1.To().Select(_ => NextRound()))
@@ -124,7 +124,7 @@ namespace HsEngine
         {
             Console.WriteLine("EndTurn calling");
             return 
-                Engine.RandomGen.Next(5) == 0 ? GameOver() : 
+                HsEmulator.Engine.RandomGen.Next(5) == 0 ? GameOver() : 
                 new Effect { Type = "EndTurn" };
         }
 

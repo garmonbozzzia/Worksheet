@@ -81,5 +81,15 @@ namespace HsEngine
             from.Remove(card);
             to.Add(card);
         }
+
+        public IEffect EndTurn()
+        {
+            return new Effect { Type = "EndTurn" };
+        }
+
+        public IEnumerable<IEffect> Actions()
+        {
+            return EndTurn().Apply();
+        }
     }
 }

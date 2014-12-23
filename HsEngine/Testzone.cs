@@ -19,6 +19,22 @@ namespace HsEngine
         }
 
         [Test]
+        public void EngineTest()
+        {
+            var deck = testDeck.Split(' ')
+                .Select(Card.Parse)
+                .Select(x => x.Instance());
+            var p1 = new Player(deck);
+            var p2 = new Player(deck);
+
+            var engine = Engine.Instance(p1, p2);
+            engine.StartGame()
+                .Apply()
+                .Select(x => String.Format("--<{0}> {1}", x.Id, x.Type))
+                .ForEach(Console.WriteLine); ;
+        }
+
+        [Test]
         public void StartGame()
         {
             new Effects().StartGame()

@@ -48,6 +48,7 @@
     <Compile Include="CardInstance.cs" />
     <Compile Include="Effect.cs" />
     <Compile Include="Effects.cs" />
+    <Compile Include="Engine.cs" />
     <Compile Include="Interfaces.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
