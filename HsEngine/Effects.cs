@@ -62,15 +62,7 @@ namespace HsEngine
 
         public IEffect DrawCard(Player player)
         {
-            var apply = new Func<IEffect, IEnumerable<IEffect>>(effect => 
-                //player.Deck.Any() ? 
-                    //player.Hand.Count() < 10 ?
-                        //AddCardToHand(player, player.Deck.First()):
-                        //AddCardFromDeckToGarbage(player, player.Deck.First()):
-                    //DamageFromFatigue
-                null
-            );
-            return new Effect { Name = "DrawCard" };
+            return player.DrawCard();
         }
 
         public IEffect BattleCry()
