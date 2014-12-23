@@ -21,7 +21,7 @@ namespace HsEngine
         {
             new Effects().StartGame()
                 .Apply()
-                .Select(x => String.Format("--<{0}> {1}", x.Id, x.Name))
+                .Select(x => String.Format("--<{0}> {1}", x.Id, x.Type))
                 .ForEach(Console.WriteLine);
         }
 
@@ -30,7 +30,7 @@ namespace HsEngine
         {
             new Effects().NextRound()
                 .Apply()
-                .Select(x => "--" + x.Name)
+                .Select(x => "--" + x.Type)
                 .ForEach(Console.WriteLine);
         }
 
@@ -48,7 +48,7 @@ namespace HsEngine
                 .ListWrap()
                 .Repeat(10)
                 .SelectMany(x => x.Apply())
-                .Select(x => x.Name)
+                .Select(x => x.Type)
                 .ForEach(Console.WriteLine);
         }
 
@@ -59,7 +59,7 @@ namespace HsEngine
             1.To(10)
                 .Select(x => effects.EndTurn())
                 .SelectMany(x => x.Apply())
-                .Select(x => x.Name)
+                .Select(x => x.Type)
                 .ToList()
                 .ForEach(Console.WriteLine);
         }
@@ -80,7 +80,7 @@ namespace HsEngine
             1.To(10)
                 .SelectMany(x => effects.EndTurn().ListWrap())
                 .SelectMany(x => x.Apply())
-                .Select(x => x.Name)
+                .Select(x => x.Type)
                 //.TakeWhileIncluding(x => x != "sGameOver")
                 .ForEach(Console.WriteLine);
         }
@@ -92,7 +92,7 @@ namespace HsEngine
             1.To(10)
                 .SelectMany(x => effects.EndTurn().ListWrap())
                 .SelectMany(x => x.Apply())
-                .Select(x => x.Name)
+                .Select(x => x.Type)
                 .TakeWhileIncluding(x => x != "GameOver")
                 .ForEach(Console.WriteLine);
         }

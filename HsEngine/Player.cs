@@ -32,31 +32,31 @@ namespace HsEngine
                         : MoveFromDeckToGarbage(Deck.First()).Apply()
                     : Hero.GetDamage(Fatigue++).Apply()
                 );
-            return new Effect(apply) { Name = "DrawCard" };
+            return new Effect(apply) { Type = "DrawCard" };
         }
 
         public IEffect MoveFromDeckToHand(CardInstance card)
         {
             Move(card, Board, Garbage);
-            return new Effect { Name = "MoveFromDeckToHand" };
+            return new Effect { Type = "MoveFromDeckToHand" };
         }
 
         public IEffect MoveFromHandToBoard(CardInstance card)
         {
             Move(card, Board, Garbage);
-            return new Effect { Name = "MoveFromDeckToHand" };
+            return new Effect { Type = "MoveFromDeckToHand" };
         }
 
         public IEffect MoveFromDeckToGarbage(CardInstance card)
         {
             Move(card, Board, Garbage);
-            return new Effect { Name = "MoveFromDeckToGarbage" };
+            return new Effect { Type = "MoveFromDeckToGarbage" };
         }
 
         public IEffect MoveFromBoardToGarbage(CardInstance card)
         {
             Move(card, Board, Garbage);
-            return new Effect { Name = "MoveFromBoardToGarbage" };
+            return new Effect { Type = "MoveFromBoardToGarbage" };
         }
 
         private void Move(CardInstance card,  List<CardInstance> from, List<CardInstance> to )

@@ -24,7 +24,7 @@ namespace HsEngine
                     .Next(target.GetDamage(AttackValue))
                     .SelectMany(x => x.Apply())
                 );
-            return new Effect(apply) { Name = "Attack" };
+            return new Effect(apply) { Type = "Attack" };
         }
 
         public IEffect GetDamage(int val)
@@ -35,7 +35,7 @@ namespace HsEngine
                 return Hp <= 0 ? Death().Apply() : Enumerable.Empty<IEffect>();
             });
 
-            return new Effect(apply) { Name = "GetDamage" };
+            return new Effect(apply) { Type = "GetDamage" };
         }
 
         public IEffect Death()
@@ -43,7 +43,7 @@ namespace HsEngine
             //MoveToGarbage
             Owner.MoveFromBoardToGarbage(this);
             //Deathrattle
-            return new Effect { Name = "Death" };
+            return new Effect { Type = "Death" };
         }
     }
 }

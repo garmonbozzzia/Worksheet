@@ -50,7 +50,7 @@ namespace HsEngine
         //Effect->[State]
         IEnumerable<ICardState> Result();
 
-        String Name { get; set; }
+        String Type { get; set; }
         int Id { get; set; }
     }
 

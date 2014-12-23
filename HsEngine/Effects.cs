@@ -22,8 +22,8 @@ namespace HsEngine
                     .SelectMany(x => x)
                     //.Next(AddCoin(Player2))
                     .SelectMany(x => x.Apply())
-                    .TakeWhileIncluding(x => x.Name != "GameOver"));
-            return new Effect(apply){Name = "StartGame"};
+                    .TakeWhileIncluding(x => x.Type != "GameOver"));
+            return new Effect(apply){Type = "StartGame"};
         }
 
         public IEffect NextRound()
@@ -33,7 +33,7 @@ namespace HsEngine
                     .Next(Turn(Player2))
                     .SelectMany(x => x.Apply())
                 );
-            return new Effect(apply) { Name = "NextRound" };
+            return new Effect(apply) { Type = "NextRound" };
         }
 
         //todo remove call apply through select
@@ -46,18 +46,18 @@ namespace HsEngine
                     .Next(PlayerActions())
                     .Next(EndTurn())
                     .SelectMany(x => x.Apply())
-                    .TakeWhileIncluding(y => y.Name != "EndTurn"));
-            return new Effect(apply){Name = "Turn "+ player};
+                    .TakeWhileIncluding(y => y.Type != "EndTurn"));
+            return new Effect(apply){Type = "Turn "+ player};
         }
 
         public IEffect GameOver()
         {
-            return new Effect { Name = "GameOver" };
+            return new Effect { Type = "GameOver" };
         }
 
         public IEffect RestoreMana(Player player)
         {
-            return new Effect{Name = "RestoreMana"};
+            return new Effect{Type = "RestoreMana"};
         }
 
         public IEffect DrawCard(Player player)
@@ -67,7 +67,7 @@ namespace HsEngine
 
         public IEffect BattleCry()
         {
-            return new Effect { Name = "DrawCard" };
+            return new Effect { Type = "DrawCard" };
         }
 
         public IEffect GetDamage(CardInstance card, int val)
@@ -75,39 +75,39 @@ namespace HsEngine
             card.Hp -= val;
             if (card.Hp <= 0) Death(card);
                 
-            return new Effect { Name = "GetDamage" };
+            return new Effect { Type = "GetDamage" };
         }
 
         public IEffect Death(CardInstance card)
         {
             //MoveToGarbage
             //card.Deathrattle
-            return new Effect { Name = "Death" };
+            return new Effect { Type = "Death" };
         }
 
         public IEffect Deathrattle()
         {
-            return new Effect { Name = "" };
+            return new Effect { Type = "" };
         }
 
         public IEffect Buff()
         {
-            return new Effect { Name = "" };
+            return new Effect { Type = "" };
         }
 
         public IEffect Silence()
         {
-            return new Effect { Name = "" };
+            return new Effect { Type = "" };
         }
 
         public IEffect Win()
         {
-            return new Effect { Name = "Win" };
+            return new Effect { Type = "Win" };
         }
 
         public IEffect Lose()
         {
-            return new Effect { Name = "Lose" };
+            return new Effect { Type = "Lose" };
         }
 
         public IEnumerable<IEffect> EndTurnL()
@@ -120,7 +120,7 @@ namespace HsEngine
             Console.WriteLine("EndTurn calling");
             return 
                 Engine.RandomGen.Next(5) == 0 ? GameOver() : 
-                new Effect { Name = "EndTurn" };
+                new Effect { Type = "EndTurn" };
         }
 
         public IEffect PlayCard()
@@ -135,32 +135,32 @@ namespace HsEngine
 
         public IEffect PlayerActions()
         {
-            return new Effect { Name = "PlayerActions" };
+            return new Effect { Type = "PlayerActions" };
         }
 
         public IEffect PlaceCardOnHand()
         {
-            return new Effect { Name = "" };
+            return new Effect { Type = "" };
         }
 
         public IEffect PlaceCardOnBoard()
         {
-            return new Effect { Name = "" };
+            return new Effect { Type = "" };
         }
 
         public IEffect BecomeSleep()
         {
-            return new Effect { Name = "" };
+            return new Effect { Type = "" };
         }
 
         public IEffect BecomeActive()
         {
-            return new Effect { Name = "" };
+            return new Effect { Type = "" };
         }
 
         public IEffect RemoveFromBoard()
         {
-            return new Effect { Name = "" };
+            return new Effect { Type = "" };
         }
     }
 }

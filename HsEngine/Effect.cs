@@ -15,7 +15,7 @@ namespace HsEngine
         {
             _apply = apply;
             Id = IdGen++;
-            Head = () => new Effect {Name = Name};
+            Head = () => new Effect {Type = Type};
         }
 
         public Effect()
@@ -38,7 +38,7 @@ namespace HsEngine
             throw new NotImplementedException();
         }
 
-        public string Name { get; set; }
+        public string Type { get; set; }
         public int Id { get; set; }
 
     }
