@@ -56,13 +56,13 @@
     <Compile Include="Testzone.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HsEmulator\HsEmulator.csproj">
-      <Project>{de336c1c-9726-4bb4-8715-16c969e92dbe}</Project>
-      <Name>HsEmulator</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\Utils\Utils.csproj">
+      <Project>{59aac973-ca55-4b26-8456-39157c05be63}</Project>
+      <Name>Utils</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

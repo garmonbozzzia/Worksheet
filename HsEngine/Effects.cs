@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.ExceptionServices;
-using HsEmulator;
+using Utils;
 
 namespace HsEngine
 {
@@ -124,7 +123,7 @@ namespace HsEngine
         {
             Console.WriteLine("EndTurn calling");
             return 
-                HsEmulator.Engine.RandomGen.Next(5) == 0 ? GameOver() : 
+                //HsEmulator.Engine.RandomGen.Next(5) == 0 ? GameOver() : 
                 new Effect { Type = "EndTurn" };
         }
 

@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
-using HsEmulator;
+using Utils;
 using NUnit.Framework;
 
 namespace HsEngine
