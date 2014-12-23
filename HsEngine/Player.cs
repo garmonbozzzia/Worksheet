@@ -17,10 +17,16 @@ namespace HsEngine
 
         public Player Opponent { get; set; }
 
-        public Player(IEnumerable<CardInstance> deck)
+        public Player(IEnumerable<CardInstance> deck, CardInstance hero)
         {
+            Hero = hero;
             Deck = deck.ToList();
+            Hand = new List<CardInstance>();
+            Board = new List<CardInstance>();
+            Garbage = new List<CardInstance>();
 
+            Hero.Owner = this;
+            Deck.ForEach(x=>x.Owner=this);
         }
 
         public IEffect DrawCard()
@@ -37,19 +43,19 @@ namespace HsEngine
 
         public IEffect MoveFromDeckToHand(CardInstance card)
         {
-            Move(card, Board, Garbage);
+            Move(card, Deck, Hand);
             return new Effect { Type = "MoveFromDeckToHand" };
         }
 
         public IEffect MoveFromHandToBoard(CardInstance card)
         {
-            Move(card, Board, Garbage);
+            Move(card, Hand, Board);
             return new Effect { Type = "MoveFromDeckToHand" };
         }
 
         public IEffect MoveFromDeckToGarbage(CardInstance card)
         {
-            Move(card, Board, Garbage);
+            Move(card, Deck, Garbage);
             return new Effect { Type = "MoveFromDeckToGarbage" };
         }
 

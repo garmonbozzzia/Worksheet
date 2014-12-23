@@ -85,7 +85,7 @@ namespace HsEngine
 
         public CardInstance Instance()
         {
-            return new CardInstance { Card = this };
+            return new CardInstance {Card = this, AttackValue = Attack, Mana = Mana, Hp = Hp};
         }
     }
 

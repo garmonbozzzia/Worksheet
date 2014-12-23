@@ -8,6 +8,11 @@ namespace HsEngine
 {
     public class Effects : IEffects
     {
+        public static Effects Instance()
+        {
+            return new Effects();
+        }
+
         public Player Player1 { get; set; }
         public Player Player2 { get; set; }
 

@@ -7,21 +7,6 @@ namespace HsEngine
 {
     public class ActorTestZone
     {
-        private string testDeck = "3-4-2" +
-                                  "3-4-2" +
-                                  "3-4-2" +
-                                  "3-4-2" +
-                                  "3-4-2" +
-                                  "3-4-2" +
-                                  "3-4-2" +
-                                  "3-4-2" +
-                                  "3-4-2" +
-                                  "3-4-2" +
-                                  "3-4-2" +
-                                  "3-4-2";
-
-
-
 
         [Test]
         public void SimplestActor()
