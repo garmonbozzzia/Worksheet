@@ -40,6 +40,25 @@ namespace Utils
                 action(x);
         }
 
+        public static IEnumerable<TResult> Scanl<T, TResult>(
+            this IEnumerable<T> source,
+            TResult first,
+            Func<TResult, T, TResult> combine)
+        {
+            using (var data = source.GetEnumerator())
+            {
+                yield return first;
+
+                while (data.MoveNext())
+                {
+                    first = combine(first, data.Current);
+                    yield return first;
+                }
+            }
+        }
+
+
+
         public static IEnumerable<T> Next<T>(this IEnumerable<T> xs, T x)
         {
             return xs.Concat(x.ListWrap());
@@ -60,9 +79,26 @@ namespace Utils
             }
         }
 
+        public static Func<T, R> Memoize<T, R>(this Func<T, R> f)
+        {
+            var d = new Dictionary<T, R>();
+            return a =>
+            {
+                R r;
+                if (!d.TryGetValue(a, out r))
+                {
+                    r = f(a);
+                    d.Add(a, r);
+                }
+                return r;
+            };
+        } 
+
         public static IEnumerable<int> To(this int number, int to)
         {
-            return Enumerable.Range(number, to - number + 1);
+            return to >= number
+                ? Enumerable.Range(number, to - number + 1)
+                : Enumerable.Range(to, number - to + 1).Select(x => number + to - x);
         }
 
         public static IEnumerable<int> To(this int number)

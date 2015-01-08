@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utils", "Utils\Utils.csproj", "{59AAC973-CA55-4B26-8456-39157C05BE63}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ladder", "Ladder\Ladder.csproj", "{ED450BEC-53A4-4801-AC58-E9165603CC00}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{59AAC973-CA55-4B26-8456-39157C05BE63}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59AAC973-CA55-4B26-8456-39157C05BE63}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59AAC973-CA55-4B26-8456-39157C05BE63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED450BEC-53A4-4801-AC58-E9165603CC00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED450BEC-53A4-4801-AC58-E9165603CC00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED450BEC-53A4-4801-AC58-E9165603CC00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED450BEC-53A4-4801-AC58-E9165603CC00}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
